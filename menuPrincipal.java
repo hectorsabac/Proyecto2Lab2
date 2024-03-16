@@ -305,7 +305,7 @@ public class menuPrincipal extends javax.swing.JFrame {
             RandomAccessFile registro = new RandomAccessFile(login.logged.getUsername() + ".rep", "rw");
             
             if (registro.length() == 0){
-                JOptionPane.showMessageDialog(null, login.logged.getUsername() + " no tiene registro de partidas creaddas aun");
+                JOptionPane.showMessageDialog(null, login.logged.getUsername() + " no tiene registro de partidas creadas aun");
             } else {
                 String accum = "Partidas de " + login.logged.getUsername() + ":\n";
                 registro.seek(0);
@@ -316,12 +316,14 @@ public class menuPrincipal extends javax.swing.JFrame {
                 while (registro.getFilePointer() < registro.length()){
 
                     long inicio = (long)registro.readLong();
+                    Calendar inicioCalendar = Calendar.getInstance();
+                    inicioCalendar.setTimeInMillis(inicio);
                     
-                    //DESCOMENTAR CUANO SE ARREGLE EL FINAL DEL JUEGO
-                    
-                    //long fin = (long)registro.readLong();
+                    long fin = (long)registro.readLong();
+                    Calendar finCalendar = Calendar.getInstance();
+                    finCalendar.setTimeInMillis(fin);
 
-                    accum += "Juego #" + cont + ":\nInicio: " + inicio + "\n"; //+ "\tFinal: " + fin;
+                    accum += "Juego #" + cont + ":\nInicio: " + inicioCalendar.getTime() + "\n" + "\tFinal: " + finCalendar.getTime();
                     cont++;
                 }
 
