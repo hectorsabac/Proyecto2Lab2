@@ -27,7 +27,8 @@ public class configuracion extends javax.swing.JFrame {
     menuPrincipal mp = new menuPrincipal();
     static ArrayList <HumanSequencePlayer> team1 = new ArrayList<>();
     static ArrayList <HumanSequencePlayer> team2 = new ArrayList<>();
-    static ArrayList <HumanSequencePlayer> team3;
+    static ArrayList <HumanSequencePlayer> team3 = new ArrayList<>();
+            ;
     static Color color1 = Color.red;
     static Color color2 = Color.blue;
     static Color color3 = Color.green;
@@ -123,6 +124,29 @@ public class configuracion extends javax.swing.JFrame {
         mp.setVisible(true);
         mp.setLocationRelativeTo(null);
     }//GEN-LAST:event_regresarActionPerformed
+    
+    public static void makeTeams(int players){
+        team1 = new ArrayList<>();
+        team2 = new ArrayList<>();
+        
+        if (players % 3 == 0){
+            team3 = new ArrayList<>();
+            
+            for (int i = 0; i < menuPrincipal.jugadores.size(); i++) {
+                team1.add(menuPrincipal.jugadores.get(i));
+                i++;
+                team2.add(menuPrincipal.jugadores.get(i));
+                i++;
+                team3.add(menuPrincipal.jugadores.get(i));
+            }
+        } else {
+            for (int i = 0; i < menuPrincipal.jugadores.size(); i++) {
+                team1.add(menuPrincipal.jugadores.get(i));
+                i++;
+                team2.add(menuPrincipal.jugadores.get(i));
+            }
+        }
+    }
     
 //    public static void makeTeams(int teams){
 //        //Borra los teams anteriores para poblarlos ahora

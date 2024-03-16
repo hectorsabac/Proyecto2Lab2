@@ -179,20 +179,20 @@ public class menuPrincipal extends javax.swing.JFrame {
         String accum = "Equipo 1:\n";
         
         for (HumanSequencePlayer current : configuracion.team1){
-            accum += "-" + current.getPlayerName()+ "\n";
+            accum += "-" + current.getUsername()+ "\n";
         }
 
         accum += "Equipo 2:\n";
         
         for (HumanSequencePlayer current : configuracion.team2){
-            accum += "-" + current.getPlayerName()+ "\n";
+            accum += "-" + current.getUsername()+ "\n";
         }
         
         if (configuracion.cPlayers % 3 == 0){
             accum += "Equipo3 :\n";
             
             for (HumanSequencePlayer current : configuracion.team3){
-                accum += "-" + current.getPlayerName()+ "\n";
+                accum += "-" + current.getUsername()+ "\n";
             }
         }
         
@@ -225,26 +225,10 @@ public class menuPrincipal extends javax.swing.JFrame {
             }
         }
         
-//        switch (configuracion.cPlayers){
-//            case 2:
-//                configuracion.makeTeams(2);
-//                break;
-//            case 3:
-//                configuracion.makeTeams(3);
-//                break;
-//            case 4:
-//                configuracion.makeTeams(2);
-//                break;
-//            case 6:
-//                configuracion.makeTeams(3);
-//                break;
-//            case 8:
-//                configuracion.makeTeams(2);
-//                break; 
-//        }
+        configuracion.makeTeams(configuracion.cPlayers);
+        setVisible(false);
         
         JOptionPane.showMessageDialog(null, "Se han seleccionado los jugadores.\nTeams:\n\n" + showTeams() + "\nEmpieza el juego!");
-        
         try {
             SequenceGame.main(new String [0]);
         } catch (InterruptedException ex) {
