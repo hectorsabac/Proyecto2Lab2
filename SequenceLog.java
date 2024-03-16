@@ -3,14 +3,28 @@ package proyecto;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class SequenceLog {
 	String fileName;
 	String title;
 	
 	public SequenceLog() {
+            
+        try {
+            RandomAccessFile registro = new RandomAccessFile (login.logged.getUsername() + ".rep", "rw");
+            
+            registro.seek(registro.length());
+            Calendar now = Calendar.getInstance();
+            
+            registro.writeLong(now.getTimeInMillis());
+            
+        } catch (IOException e){
+            e.printStackTrace();
+        }
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String t = new SimpleDateFormat("MM.dd.yy-HH.mm.ss").format(timestamp);

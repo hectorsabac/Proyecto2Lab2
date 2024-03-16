@@ -10,7 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -74,6 +76,11 @@ public class menuPrincipal extends javax.swing.JFrame {
         });
 
         reportes.setText("Reportes");
+        reportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reportesActionPerformed(evt);
+            }
+        });
 
         regresar.setText("Regresar");
         regresar.addActionListener(new java.awt.event.ActionListener() {
@@ -200,7 +207,27 @@ public class menuPrincipal extends javax.swing.JFrame {
         
     }
     
+    /*
+    Formato de user.rep
+    
+    long horaComienzo
+    long horaFinal
+    */
+    
     private void jugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jugarActionPerformed
+        
+        try  {
+            RandomAccessFile registro = new RandomAccessFile(login.logged.getUsername() + ".rep", "rw");
+            
+            registro.seek(registro.length());
+            Calendar hoy = Calendar.getInstance();
+            registro.writeLong(hoy.getTimeInMillis());
+            
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+
         //Borra la lista anterior de jugadores
         jugadores = new ArrayList<>();
         
@@ -224,7 +251,6 @@ public class menuPrincipal extends javax.swing.JFrame {
                 
             }
         }
-        
         configuracion.makeTeams(configuracion.cPlayers);
         setVisible(false);
         
@@ -269,6 +295,43 @@ public class menuPrincipal extends javax.swing.JFrame {
         c.setVisible(true);
         c.setLocationRelativeTo(null);
     }//GEN-LAST:event_configActionPerformed
+
+    private void reportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportesActionPerformed
+        
+        
+        
+        
+        try {
+            RandomAccessFile registro = new RandomAccessFile(login.logged.getUsername() + ".rep", "rw");
+            
+            if (registro.length() == 0){
+                JOptionPane.showMessageDialog(null, login.logged.getUsername() + " no tiene registro de partidas creaddas aun");
+            } else {
+                String accum = "Partidas de " + login.logged.getUsername() + ":\n";
+                registro.seek(0);
+
+                int cont = 1;
+                System.out.println(registro.length());
+
+                while (registro.getFilePointer() < registro.length()){
+
+                    long inicio = (long)registro.readLong();
+                    
+                    //DESCOMENTAR CUANO SE ARREGLE EL FINAL DEL JUEGO
+                    
+                    //long fin = (long)registro.readLong();
+
+                    accum += "Juego #" + cont + ":\nInicio: " + inicio + "\n"; //+ "\tFinal: " + fin;
+                    cont++;
+                }
+
+                JOptionPane.showMessageDialog(null, accum);
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado");
+        }
+    }//GEN-LAST:event_reportesActionPerformed
 
     /**
      * @param args the command line arguments

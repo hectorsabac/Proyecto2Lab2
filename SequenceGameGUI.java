@@ -3,6 +3,9 @@ package proyecto;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.Calendar;
 import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -331,6 +334,18 @@ public class SequenceGameGUI extends JFrame {
         		new ActionListener() {
         			public void actionPerformed(ActionEvent e) {
         				System.exit(0);
+                                        
+                                        try {
+                                            RandomAccessFile registro = new RandomAccessFile (login.logged.getUsername() + ".rep", "rw");
+                                        
+                                            registro.seek(registro.length());
+                                            Calendar now = Calendar.getInstance();
+
+                                            registro.writeLong(now.getTimeInMillis());
+                                        } catch (IOException f){
+                                            JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado");
+                                        }
+                                        
         			}
         		});
         quit.setSize(100, 100);
