@@ -37,7 +37,7 @@ public class HumanSequencePlayer extends ASequencePlayer {
         */
 	void enableAllHandCards() {
 		for (HashMap.Entry<Integer, JButton> mapElement : handMap.entrySet()) {
-                    mapElement.getValue().setEnabled(true);	
+                    mapElement.getValue().setEnabled(true);
 		}
                 JOptionPane.showMessageDialog(null, "ENABLED");
 	}
