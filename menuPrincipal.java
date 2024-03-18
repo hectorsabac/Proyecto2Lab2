@@ -262,22 +262,6 @@ public class menuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jugarActionPerformed
         
-    public static void printArrayList(ArrayList <player> lista){
-        System.out.println("Lista:");
-        for (player current : lista){
-            System.out.println(current.getUsername());
-        }
-    }
-    
-    public ArrayList <ImageIcon> listaImagenes(player jugador){
-        ArrayList <ImageIcon> imagenes = new ArrayList<>();
-        
-        for (File current : jugador.getMano()){
-            imagenes.add(resizeImage(current));
-        }
-        
-        return imagenes;
-    }
     
     public ImageIcon resizeImage(File imagen){
         ImageIcon carta = new ImageIcon(imagen.getAbsolutePath());
@@ -297,10 +281,6 @@ public class menuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_configActionPerformed
 
     private void reportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportesActionPerformed
-        
-        
-        
-        
         try {
             RandomAccessFile registro = new RandomAccessFile(login.logged.getUsername() + ".rep", "rw");
             
@@ -323,7 +303,7 @@ public class menuPrincipal extends javax.swing.JFrame {
                     Calendar finCalendar = Calendar.getInstance();
                     finCalendar.setTimeInMillis(fin);
 
-                    accum += "Juego #" + cont + ":\nInicio: " + inicioCalendar.getTime() + "\n" + "\tFinal: " + finCalendar.getTime();
+                    accum += "Juego #" + cont + ":\nInicio: " + inicioCalendar.getTime() + "\n" + "\tFinal: " + finCalendar.getTime() + "\n";
                     cont++;
                 }
 

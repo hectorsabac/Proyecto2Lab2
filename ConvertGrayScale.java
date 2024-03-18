@@ -1,3 +1,5 @@
+package proyecto;
+
 import javax.imageio.ImageIO;
 import javax.swing.GrayFilter;
 

@@ -49,6 +49,7 @@ public class SequenceGame {
 	
 	public SequenceGame(int numberOfPlayers) throws InterruptedException {
 	
+                
 		long startTime = System.nanoTime();
 		
 		setBoard();
@@ -493,7 +494,7 @@ public class SequenceGame {
 			ASequencePlayer p0 = playerList[0];
 			HumanSequencePlayer human;
 			CpuSequencePlayer cpu;
-			
+                        
 			if(p0 instanceof HumanSequencePlayer) {
 				human = (HumanSequencePlayer) p0;
 				cpu = (CpuSequencePlayer) playerList[1];
@@ -541,6 +542,8 @@ public class SequenceGame {
 				JOptionPane.showMessageDialog(
 						  gui, list, "Por favor, elija su color", JOptionPane.PLAIN_MESSAGE);
 			}
+                      
+                        
 			
 			switch(list.getSelectedIndex()) {
 				case 0: 
@@ -558,8 +561,11 @@ public class SequenceGame {
 			String playerInfo = "User's name: " + human.playerName + "(" + human.playerColor + ")\n"
 					+ "CPU chose color: " + cpu.playerColor + "\n";
 			log.updateLog(playerInfo);
+                        
 			
 			//deja iniciar la partida
+
+                        
 			if(p0 instanceof HumanSequencePlayer) {
 				//empezamos primero
 				while(true) {
@@ -624,6 +630,7 @@ public class SequenceGame {
 					//log cpu's hand
 					log.updateLog("CPU turno " + turn + ":"
 							+ "\n\tMano Actual: " + currentPlayer.getHand());
+                                     
 					
 					//movimiento de la compu
 					cpu.makeAMove(thisGame);
@@ -632,6 +639,7 @@ public class SequenceGame {
 							" en " + "(" + lastPlayedX + ", " + lastPlayedY + ")");
 
 					if(isGameOver(lastPlayedX, lastPlayedY)) {
+                                            JOptionPane.showMessageDialog(null, "entra");
 						//game is over
 						endGame();
 						break;
@@ -645,6 +653,8 @@ public class SequenceGame {
 								+ "\n\tMano actual: " + currentPlayer.getHand());
 
 						human.enableAllHandCards();
+                                                
+                                                
 						//espera que hagamos nuestro movimiento
 						synchronized(this) {
 							wait();
@@ -652,6 +662,7 @@ public class SequenceGame {
 						//nuestro movimiento
 						log.updateLog("\tMovimiento: " + lastPlayedCard.getCardName() +
 								" en " + "(" + lastPlayedX + ", " + lastPlayedY + ")");
+                                                JOptionPane.showMessageDialog(null, "REGISTERED");
 						
 						if(isGameOver(lastPlayedX, lastPlayedY)) {
 							//game is over

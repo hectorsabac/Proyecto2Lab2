@@ -3,6 +3,7 @@ package proyecto;
 import java.util.HashMap;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class HumanSequencePlayer extends ASequencePlayer {
 	
@@ -35,9 +36,10 @@ public class HumanSequencePlayer extends ASequencePlayer {
         Itera sobre las entradas del HashMap y habilita cada botón asociado a una carta.
         */
 	void enableAllHandCards() {
-		for (HashMap.Entry<Integer, JButton> mapElement : handMap.entrySet()) { 
-			mapElement.getValue().setEnabled(true);
+		for (HashMap.Entry<Integer, JButton> mapElement : handMap.entrySet()) {
+                    mapElement.getValue().setEnabled(true);	
 		}
+                JOptionPane.showMessageDialog(null, "ENABLED");
 	}
 
 }
