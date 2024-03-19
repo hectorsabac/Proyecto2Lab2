@@ -41,11 +41,11 @@ public class SequenceGame {
             return playerList;
         }
         
-        public void setPlayerList(){
-            for (int i = 0; i < menuPrincipal.jugadores.size(); i++) {
-                playerList[i] = menuPrincipal.jugadores.get(i);
-            }
-        }
+//        public void setPlayerList(){
+//            for (int i = 0; i < menuPrincipal.jugadores.size(); i++) {
+//                playerList[i] = menuPrincipal.jugadores.get(i);
+//            }
+//        }
 	
 	public SequenceGame(int numberOfPlayers) throws InterruptedException {
 	
@@ -99,7 +99,7 @@ public class SequenceGame {
 		else {
 			//modo multijugador, no se necesita reproductor de CPU
 			playerList = new ASequencePlayer[n];
-                        setPlayerList();
+//                        setPlayerList();
 			
 //			for(int i=0; i<n; i++) {
 //				playerList[i] = new HumanSequencePlayer(i);

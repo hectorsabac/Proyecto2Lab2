@@ -6,9 +6,11 @@ package proyecto;
 
 import java.awt.Color;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,13 +27,12 @@ public class configuracion extends javax.swing.JFrame {
     }
     
     menuPrincipal mp = new menuPrincipal();
-    static ArrayList <HumanSequencePlayer> team1 = new ArrayList<>();
-    static ArrayList <HumanSequencePlayer> team2 = new ArrayList<>();
-    static ArrayList <HumanSequencePlayer> team3 = new ArrayList<>();
-            ;
-    static Color color1 = Color.red;
-    static Color color2 = Color.blue;
-    static Color color3 = Color.green;
+    static ArrayList <Player> team1 = new ArrayList<>();
+    static ArrayList <Player> team2 = new ArrayList<>();
+    static ArrayList <Player> team3 = new ArrayList<>();;
+    static ImageIcon color1 = resize(new ImageIcon("src/proyecto/res/tokens/redToken.png"));
+    static ImageIcon color2 = resize(new ImageIcon("src/proyecto/res/tokens/blueToken.png"));
+    static ImageIcon color3 = resize(new ImageIcon("src/proyecto/res/tokens/greenToken.png"));
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -125,6 +126,14 @@ public class configuracion extends javax.swing.JFrame {
         mp.setLocationRelativeTo(null);
     }//GEN-LAST:event_regresarActionPerformed
     
+    static ImageIcon resize(ImageIcon original){
+        Image imageOriginal = original.getImage();
+        Image nuevaImage = imageOriginal.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon nuevoIcono = new ImageIcon (nuevaImage);
+        
+        return nuevoIcono;
+    }
+    
     public static void makeTeams(int players){
         team1 = new ArrayList<>();
         team2 = new ArrayList<>();
@@ -139,11 +148,31 @@ public class configuracion extends javax.swing.JFrame {
                 i++;
                 team3.add(menuPrincipal.jugadores.get(i));
             }
+            
+            for (Player current : team1){
+                current.setColor(color1);
+            }
+            
+            for (Player current : team2){
+                current.setColor(color2);
+            }
+            
+            for (Player current : team3){
+                current.setColor(color3);
+            }
         } else {
             for (int i = 0; i < menuPrincipal.jugadores.size(); i++) {
                 team1.add(menuPrincipal.jugadores.get(i));
                 i++;
                 team2.add(menuPrincipal.jugadores.get(i));
+            }
+            
+            for (Player current : team1){
+                current.setColor(color1);
+            }
+            
+            for (Player current : team2){
+                current.setColor(color2);
             }
         }
     }
@@ -236,32 +265,32 @@ public class configuracion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jugadoresCantidadActionPerformed
         
-//    public static ArrayList <player> teamOf(player jugador){
-//        
-//        for (player current : team1){
-//            if (current == jugador){
-//                return team1;
-//            }
-//        }
-//        
-//        for (player current : team2){
-//            if (current == jugador){
-//                return team2;
-//            }
-//        }
-//        
-//        if (cPlayers % 3 == 0){
-//            for (player current : team3){
-//                if (current == jugador){
-//                    return team3;
-//                }
-//            }
-//        }
-//        
-//        return null;
-//    }
+    public static ArrayList <Player> teamOf(Player jugador){
+        
+        for (Player current : team1){
+            if (current == jugador){
+                return team1;
+            }
+        }
+        
+        for (Player current : team2){
+            if (current == jugador){
+                return team2;
+            }
+        }
+        
+        if (cPlayers % 3 == 0){
+            for (Player current : team3){
+                if (current == jugador){
+                    return team3;
+                }
+            }
+        }
+        
+        return null;
+    }
     
-    public static boolean colorExits(Color color){
+    public static boolean colorExits(ImageIcon color){
         
         if (color == color1 || color == color2 || color == color3){
             return true;
@@ -270,75 +299,86 @@ public class configuracion extends javax.swing.JFrame {
         return false;
     }
     
-    static Color oldColor = Color.black;
+    static ImageIcon oldColor = null;
     
     private void colorFichaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorFichaActionPerformed
-//        try {     
-//            int opcion = Integer.parseInt(JOptionPane.showInputDialog("Que color desea que sea su ficha?\n"
-//                + "1. Rojo\n"
-//                + "2. Azul\n"
-//                + "3. Verde\n"
-//                + "4. Amarillo\n"
-//                + "5. Naranja\n"
-//                + "6. Cyan\n"));
-//            
-//            while (opcion < 1 || opcion > 6){
-//                opcion = Integer.parseInt(JOptionPane.showInputDialog("Ingrese una opcion valida\nQue color desea que sea su ficha?\n"
-//                    + "1. Rojo\n"
-//                    + "2. Azul\n"
-//                    + "3. Verde\n"
-//                    + "4. Amarillo\n"
-//                    + "5. Naranja\n"
-//                    + "6. Cyan\n"));
-//            }
-//            
-//            oldColor = color1;
-//            
-//            switch (opcion){
-//                case 1:
-//                    cambiarFicha(Color.red);
-//                    break;
-//                case 2:
-//                    cambiarFicha(Color.blue);
-//                    break;
-//                case 3:
-//                    cambiarFicha(Color.green);
-//                    break;
-//                case 4:
-//                    cambiarFicha(Color.yellow);
-//                    break;
-//                case 5:
-//                    cambiarFicha(Color.orange);
-//                    break;
-//                case 6:
-//                    cambiarFicha(Color.cyan);
-//                    break;
-//            }
-//            
-//        } catch (NumberFormatException e){
-//            JOptionPane.showMessageDialog(null, "Ingrese un numero valido");
-//        }
-//        
-//        
+        try {     
+            int opcion = Integer.parseInt(JOptionPane.showInputDialog("Que color desea que sea su ficha?\n"
+                + "1. Rojo\n"
+                + "2. Azul\n"
+                + "3. Verde\n"
+                + "4. Gris\n"
+                + "5. Naranja\n"
+                + "6. Rosaddo\n"
+                + "7. Morado\n"
+                + "8. Amarillo"));
+            
+            while (opcion < 1 || opcion > 6){
+                opcion = Integer.parseInt(JOptionPane.showInputDialog("Ingrese una opcion valida\nQue color desea que sea su ficha?\n"
+                    + "1. Rojo\n"
+                    + "2. Azul\n"
+                    + "3. Verde\n"
+                    + "4. Gris\n"
+                    + "5. Naranja\n"
+                    + "6. Rosaddo\n"
+                    + "7. Morado\n"
+                    + "8. Amarillo"));
+            }
+            
+            oldColor = color1;
+            
+            switch (opcion){
+                case 1:
+                    cambiarFicha(new ImageIcon ("src/proyecto/res/tokens/redToken.png"));
+                    break;
+                case 2:
+                    cambiarFicha(new ImageIcon ("src/proyecto/res/tokens/blueToken.png"));
+                    break;
+                case 3:
+                    cambiarFicha(new ImageIcon ("src/proyecto/res/tokens/greenToken.png"));
+                    break;
+                case 4:
+                    cambiarFicha(new ImageIcon ("src/proyecto/res/tokens/greyToken.png"));
+                    break;
+                case 5:
+                    cambiarFicha(new ImageIcon ("src/proyecto/res/tokens/orangeToken.png"));
+                    break;
+                case 6:
+                    cambiarFicha(new ImageIcon ("src/proyecto/res/tokens/pinkToken.png"));
+                    break;
+                case 7:
+                    cambiarFicha(new ImageIcon ("src/proyecto/res/tokens/purpleToken.png"));
+                    break;
+                case 8:
+                    cambiarFicha(new ImageIcon ("src/proyecto/res/tokens/yellowToken.png"));
+                    break;
+            }
+            
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Ingrese un numero valido");
+        }
+        
+        
     }//GEN-LAST:event_colorFichaActionPerformed
 
     
-//    public static void cambiarFicha(Color color){
-//        
-//        if (!colorExits(color)){
-//            
-//            color1 = color;
-//            
-//            for (HumanSequencePlayer current : team1){
-//                current.setFicha(color);
-//            }
-//            
-//            JOptionPane.showMessageDialog(null, "Color de ficha cambiado!");
-//        } else {
-//            color1 = oldColor;
-//            JOptionPane.showMessageDialog(null, "Ese color ya esta tomado");
-//        }
-//    }
+    public static void cambiarFicha(ImageIcon color){
+        color = resize(color);
+        
+        if (!colorExits(color)){
+            
+            color1 = color;
+            
+            for (Player current : team1){
+                current.setColor(color);
+            }
+            
+            JOptionPane.showMessageDialog(null, "Color de ficha cambiado!");
+        } else {
+            color1 = oldColor;
+            JOptionPane.showMessageDialog(null, "Ese color ya esta tomado");
+        }
+    }
     
     /**
      * @param args the command line arguments

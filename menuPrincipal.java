@@ -35,7 +35,7 @@ public class menuPrincipal extends javax.swing.JFrame {
     }
     
     menu menu = new menu();
-    static ArrayList <HumanSequencePlayer> jugadores;
+    static ArrayList <Player> jugadores;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -140,13 +140,13 @@ public class menuPrincipal extends javax.swing.JFrame {
         menu.setLocationRelativeTo(null);
     }//GEN-LAST:event_regresarActionPerformed
 
-    private boolean verificarUnico(String player, ArrayList <HumanSequencePlayer> lista){
+    private boolean verificarUnico(String player, ArrayList <Player> lista){
         int contador = 0;
         
         try {
             creacionDeUsuarios.poblarUsers();
 
-            for (HumanSequencePlayer current : lista){
+            for (Player current : lista){
                 if (current.getUsername().equals(player)){
                     contador++;
                 }
@@ -185,20 +185,20 @@ public class menuPrincipal extends javax.swing.JFrame {
     private String showTeams(){
         String accum = "Equipo 1:\n";
         
-        for (HumanSequencePlayer current : configuracion.team1){
+        for (Player current : configuracion.team1){
             accum += "-" + current.getUsername()+ "\n";
         }
 
         accum += "Equipo 2:\n";
         
-        for (HumanSequencePlayer current : configuracion.team2){
+        for (Player current : configuracion.team2){
             accum += "-" + current.getUsername()+ "\n";
         }
         
         if (configuracion.cPlayers % 3 == 0){
             accum += "Equipo3 :\n";
             
-            for (HumanSequencePlayer current : configuracion.team3){
+            for (Player current : configuracion.team3){
                 accum += "-" + current.getUsername()+ "\n";
             }
         }
@@ -255,11 +255,11 @@ public class menuPrincipal extends javax.swing.JFrame {
         setVisible(false);
         
         JOptionPane.showMessageDialog(null, "Se han seleccionado los jugadores.\nTeams:\n\n" + showTeams() + "\nEmpieza el juego!");
-        try {
-            SequenceGame.main(new String [0]);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(menuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        Juego juego = new Juego();
+        juego.setVisible(true);
+
+
     }//GEN-LAST:event_jugarActionPerformed
         
     

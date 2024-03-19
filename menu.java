@@ -164,22 +164,22 @@ public class menu extends javax.swing.JFrame {
         //Condiciones que suman el usuario por default a la base de datos si este no existe ya
         if (!p1){
             creacionDeUsuarios.addUser("Player 1", "p1", "p1");
-            menuPrincipal.jugadores.add(new HumanSequencePlayer (1, "p1"));
+            menuPrincipal.jugadores.add(new Player ("p1"));
         }
         
         if (!p2){
             creacionDeUsuarios.addUser("Player 2", "p2", "p2");
-            menuPrincipal.jugadores.add(new HumanSequencePlayer (2, "p2"));
+            menuPrincipal.jugadores.add(new Player ("p2"));
         }
         
         if (!p3){
             creacionDeUsuarios.addUser("Player 3", "p3", "p3");
-            menuPrincipal.jugadores.add(new HumanSequencePlayer (3, "p3"));
+            menuPrincipal.jugadores.add(new Player ("p3"));
         }
         
         if (!p4){
             creacionDeUsuarios.addUser("Player 4", "p4", "p4");
-            menuPrincipal.jugadores.add(new HumanSequencePlayer (4, "p4"));
+            menuPrincipal.jugadores.add(new Player ("p4"));
         }
 
     }

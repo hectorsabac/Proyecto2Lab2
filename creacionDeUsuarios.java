@@ -24,7 +24,7 @@ public class creacionDeUsuarios extends javax.swing.JFrame {
         
     }
     
-    static ArrayList <HumanSequencePlayer> users = new ArrayList<>();
+    static ArrayList <Player> users = new ArrayList<>();
     static RandomAccessFile dataBase;
     menu menu = new menu();
     
@@ -170,7 +170,7 @@ public class creacionDeUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_confirmPassActionPerformed
 
     public static boolean exists(String user){
-        for (HumanSequencePlayer current : users){
+        for (Player current : users){
             if (current.getUsername().equals(user)){
                 return true;
             }
@@ -191,7 +191,7 @@ public class creacionDeUsuarios extends javax.swing.JFrame {
         String accum = "";
         
         for (int i = 0; i < users.size(); i++) {
-            accum += users.get(i).getPlayerName()+ "\n";
+            accum += users.get(i).getUsername()+ "\n";
         }
         
         return accum;
@@ -208,7 +208,7 @@ public class creacionDeUsuarios extends javax.swing.JFrame {
             dataBase.skipBytes(12); //Skip 4 (int puntos) + 8 (long fecha) = 12 bytes
             String username = (String)dataBase.readUTF();
             
-            HumanSequencePlayer player = new HumanSequencePlayer(users.size() + 1, username);
+            Player player = new Player(username);
             
             users.add(player);
             dataBase.readUTF(); //Mueve el puntero la cantidad de Bytes que abarque el password del usuario

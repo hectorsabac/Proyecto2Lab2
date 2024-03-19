@@ -23,7 +23,7 @@ public class login extends javax.swing.JFrame {
     
     
     menuPrincipal mp = new menuPrincipal();
-    static HumanSequencePlayer logged;
+    static Player logged;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -187,10 +187,10 @@ public class login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_userActionPerformed
 
-    public static HumanSequencePlayer userWithUsername(String username) throws IOException{
+    public static Player userWithUsername(String username) throws IOException{
         creacionDeUsuarios.poblarUsers();
         
-        for (HumanSequencePlayer current : creacionDeUsuarios.users){
+        for (Player current : creacionDeUsuarios.users){
             if (current.getUsername().equals(username)){
                 return current;
             }
