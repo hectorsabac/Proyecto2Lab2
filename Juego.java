@@ -348,6 +348,8 @@ public class Juego extends javax.swing.JFrame {
                     lastOneEyedPlayed = card;
                     enableFichas();
                 } else {
+                    twoEyedPlayed = false;
+                    oneEyedPlayed = false;
                     disableAll();
                     enableBoardPositionsForCard(card);
                 }
@@ -402,8 +404,8 @@ public class Juego extends javax.swing.JFrame {
                 if (!(i == 0 && j == 0) && !(i == 0 && j == 9) && !(i == 9 && j == 0) &&  !(i == 9 && j ==9)){
                     if (board[i][j].getMarked()){
                         ImageIcon imagen = (ImageIcon) boardButtons[i][j].getDisabledIcon();
-                        boardButtons[i][j].setEnabled(true);
                         sinFichaIcon = (ImageIcon) boardButtons[i][j].getIcon();
+                        boardButtons[i][j].setEnabled(true);
                         boardButtons[i][j].setIcon(imagen);
                     }
                 }
@@ -417,17 +419,18 @@ public class Juego extends javax.swing.JFrame {
         boolean found = false;
         
         if (oneEyedPlayed){
-            
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board[i].length; j++) {
-                    String cardName = lastOneEyedPlayed.getImagePath().substring(lastOneEyedPlayed.getImagePath().lastIndexOf("/") + 1);
+                    String cardName = cardPlayed.getImagePath().substring(cardPlayed.getImagePath().lastIndexOf("/") + 1);
                     String refName = board[i][j].getImagePath().substring(board[i][j].getImagePath().lastIndexOf("/") + 1);
                     
+                    String greyPath = "src/proyecto/res/greyCards/" + cardName;
+                    
                     if (cardName.equals(refName)){
-                        
-                        boardButtons[i][j].setDisabledIcon(sinFichaIcon);
+                        boardButtons[i][j].setDisabledIcon(resize(new ImageIcon(greyPath), 60, 40));
                         board[i][j].setMarked(false);
                         board[i][j].setTeamWhoMarked(null);
+                        boardButtons[i][j].setEnabled(false);
                         boardButtons[i][j].setIcon(sinFichaIcon);
                     }
                 }
@@ -481,23 +484,9 @@ public class Juego extends javax.swing.JFrame {
             discard.add(cardPlayed);
         }
         
-        grabCard();
-        currentPlayerIndex++;
-        
-        if (currentPlayerIndex > configuracion.cPlayers - 1){
-            currentPlayerIndex = 0;
-        }
-        
-        currentPlayer = menuPrincipal.jugadores.get(currentPlayerIndex);
-        mano.removeAll();
-        generateHand(currentPlayer);
-        
-        if (deck.isEmpty()){
-            reshuffle();
-        }
         
         if (checkWin(currentPlayer.getColor())){
-            JOptionPane.showMessageDialog(null, "El equipo " + teamOf() + "ha ganado sequence!");
+            JOptionPane.showMessageDialog(null, "El equipo " + teamOf() + " ha ganado sequence!");
             
             try {
                 RandomAccessFile reporte = new RandomAccessFile (login.logged.getUsername() + ".rep", "rw");
@@ -515,6 +504,21 @@ public class Juego extends javax.swing.JFrame {
             menuPrincipal menu = new menuPrincipal();
             menu.setVisible(true);
             menu.setLocationRelativeTo(null);
+        }
+        
+        grabCard();
+        currentPlayerIndex++;
+        
+        if (currentPlayerIndex > configuracion.cPlayers - 1){
+            currentPlayerIndex = 0;
+        }
+        
+        currentPlayer = menuPrincipal.jugadores.get(currentPlayerIndex);
+        mano.removeAll();
+        generateHand(currentPlayer);
+        
+        if (deck.isEmpty()){
+            reshuffle();
         }
     }
     
@@ -554,7 +558,7 @@ public class Juego extends javax.swing.JFrame {
         
         
         
-        msg.setText(currentPlayer.getUsername() + " ha robado una carta!");
+        msg.setText(currentPlayer.getUsername() + " ha robado una carta! Quedan " + deck.size() + " cartas en el mazo.");
     }
     
     int indexOfCard(Card cardPlayed){
@@ -583,18 +587,19 @@ public class Juego extends javax.swing.JFrame {
     boolean checkWin(ImageIcon teamWhoMarked){
         int sequences = 0 ;
         int linedSets = 0;
+        
+        board[0][0].setTeamWhoMarked(teamWhoMarked);
+        board[9][0].setTeamWhoMarked(teamWhoMarked);
+        board[0][9].setTeamWhoMarked(teamWhoMarked);
+        board[9][9].setTeamWhoMarked(teamWhoMarked);
+        
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                if ((i == 0 && j == 0) || (i == 0 && j == 9) || (i == 9 && j == 0) || (i == 9 && j ==9)){
-                    board[i][j].setTeamWhoMarked(teamWhoMarked);
-                }
-                
-                
                 if (i < 6 && board[i][j].getMarked() &&
                         board[i + 1][j].getMarked() &&
                         board[i + 2][j].getMarked() &&
                         board[i + 3][j].getMarked() &&
-                        board[i + 4][j].getMarked()){
+                        board[i + 4][j].getMarked() && board [i][j].getTeamWhoMarked() == teamWhoMarked){
                     
                     if (board[i][j].getTeamWhoMarked() == board[i + 1][j].getTeamWhoMarked() &&
                             board[i][j].getTeamWhoMarked() == board[i + 2][j].getTeamWhoMarked() &&
@@ -614,7 +619,7 @@ public class Juego extends javax.swing.JFrame {
                         board[i][j + 1].getMarked() &&
                         board[i][j + 2].getMarked() &&
                         board[i][j + 3].getMarked() &&
-                        board[i][j + 4].getMarked()){
+                        board[i][j + 4].getMarked() && board [i][j].getTeamWhoMarked() == teamWhoMarked){
                     if (board[i][j].getTeamWhoMarked() == board[i][j + 1].getTeamWhoMarked() &&
                             board[i][j].getTeamWhoMarked() == board[i][j + 2].getTeamWhoMarked() &&
                             board[i][j].getTeamWhoMarked() == board[i][j + 3].getTeamWhoMarked() &&
@@ -633,7 +638,7 @@ public class Juego extends javax.swing.JFrame {
                         board[i + 1][j + 1].getMarked() &&
                         board[i + 2][j + 2].getMarked() &&
                         board[i + 2][j + 3].getMarked() &&
-                        board[i + 2][j + 4].getMarked()){
+                        board[i + 2][j + 4].getMarked() && board [i][j].getTeamWhoMarked() == teamWhoMarked){
                     if (board[i][j].getTeamWhoMarked() == board[i + 1][j + 1].getTeamWhoMarked() &&
                             board[i][j].getTeamWhoMarked() == board[i + 2][j + 2].getTeamWhoMarked() &&
                             board[i][j].getTeamWhoMarked() == board[i + 3][j + 3].getTeamWhoMarked() &&
@@ -652,7 +657,7 @@ public class Juego extends javax.swing.JFrame {
                         board[i - 1][j + 1].getMarked() &&
                         board[i - 2][j + 2].getMarked() &&
                         board[i - 3][j + 3].getMarked() &&
-                        board[i - 4][j + 4].getMarked()){
+                        board[i - 4][j + 4].getMarked() && board [i][j].getTeamWhoMarked() == teamWhoMarked){
                     
                     if (board[i][j].getTeamWhoMarked() == board[i - 1][j + 1].getTeamWhoMarked() &&
                             board[i][j].getTeamWhoMarked() == board[i - 2][j + 2].getTeamWhoMarked() &&
@@ -669,7 +674,6 @@ public class Juego extends javax.swing.JFrame {
                 linedSets = 0;
             }
         }
-        
         
         board[0][0].setTeamWhoMarked(null);
         board[9][0].setTeamWhoMarked(null);
